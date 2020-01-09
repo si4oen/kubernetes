@@ -1,0 +1,26 @@
+##### https://github.com/derailed/k9s
+
+##### Install k9s on Centos - https://snapcraft.io/install/k9s/centos
+
+sudo yum install epel-release
+sudo yum install snapd
+sudo systemctl enable --now snapd.socket
+sudo ln -s /var/lib/snapd/snap /snap
+sudo snap install k9s
+
+mkdir ~/.k9s
+
+## then logout your session and login again, run command as below
+k9s --kubeconfig ~/.kube/config
+
+
+##### Install k9s on Ubuntu - https://snapcraft.io/install/k9s/ubuntu
+
+sudo apt update
+sudo apt install snapd
+sudo snap install k9s
+
+mkdir ~/.k9s
+
+## then logout your session and login again, run command as below
+k9s --kubeconfig ~/.kube/config
