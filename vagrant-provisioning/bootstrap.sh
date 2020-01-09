@@ -41,6 +41,7 @@ yum install -y -q docker-ce >/dev/null 2>&1
 
 ## Enable docker service
 echo "===== [TASK] Enable and start docker service ====="
+systemctl daemon-reload
 systemctl enable docker >/dev/null 2>&1
 systemctl start docker
 
@@ -75,6 +76,7 @@ yum install -y -q kubeadm kubelet kubectl >/dev/null 2>&1
 
 ## Start and Enable kubelet service
 echo "===== [TASK] Enable and start kubelet service ====="
+systemctl daemon-reload
 systemctl enable kubelet >/dev/null 2>&1
 systemctl start kubelet >/dev/null 2>&1
 
