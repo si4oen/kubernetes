@@ -6,15 +6,15 @@ ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 Vagrant.configure(2) do |config|
 
   #disable default /vagrant share
-	config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
-	##ssh key-based authentication
-	config.ssh.insert_key = false
+  ##ssh key-based authentication
+  config.ssh.insert_key = false
   config.ssh.private_key_path = ['~/.vagrant.d/insecure_private_key', '~/.ssh/id_rsa']
   config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/authorized_keys"
 
   ##If install VirtualBox Guest Additions set auto_update to "TRUE" or running command "vagrant vbguest --do install"
-	##must install vagrant-vbguest for this works ==> vagrant plugin install vagrant-vbguest
+  ##must install vagrant-vbguest for this works ==> vagrant plugin install vagrant-vbguest
   if Vagrant.has_plugin?("vagrant-vbguest") then
     config.vbguest.auto_update = false
     config.vbguest.no_remote = true
@@ -26,13 +26,14 @@ Vagrant.configure(2) do |config|
   config.vm.define "kmaster" do |kmaster|
     kmaster.vm.box = "box.centos7"
     kmaster.vm.hostname = "kmaster.testlab.local"
-    kmaster.vm.network "public_network", ip: "192.168.16.130"
+    kmaster.vm.network "private_network", ip: "172.42.42.100"
     kmaster.vm.provider "virtualbox" do |v|
       v.name = "kmaster"
       v.memory = 2048
       v.cpus = 2
       v.customize ["modifyvm", :id, "--audio", "none"]
     end
+    config.vm.network "forwarded_port", guest: "31000", host: "31000", protocol: "tcp"
     #kmaster.vm.provision "shell", path: "bootstrap_kmaster.sh"
   end
 
@@ -42,13 +43,14 @@ Vagrant.configure(2) do |config|
     config.vm.define "kworker#{i}" do |workernode|
       workernode.vm.box = "box.centos7"
       workernode.vm.hostname = "kworker#{i}.testlab.local"
-      workernode.vm.network "public_network", ip: "192.168.16.13#{i}"
+      workernode.vm.network "private_network", ip: "172.42.42.10#{i}"
       workernode.vm.provider "virtualbox" do |v|
         v.name = "kworker#{i}"
         v.memory = 1024
         v.cpus = 1
         v.customize ["modifyvm", :id, "--audio", "none"]
       end
+      #config.vm.network "forwarded_port", guest: "31000", host: "31000", protocol: "tcp"
       #workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
     end
   end
