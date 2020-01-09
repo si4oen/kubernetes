@@ -14,11 +14,6 @@ echo "===== [TASK] Enabled SSH password authentication ====="
 sed -i "s/^PasswordAuthentication no/PasswordAuthentication yes/" /etc/ssh/sshd_config
 systemctl reload sshd
 
-## Disable Password authentication
-#echo "===== [TASK] Disabled SSH password authentication ====="
-#sed -i -e "\\#PasswordAuthentication yes# s#PasswordAuthentication yes#PasswordAuthentication no#g" /etc/ssh/sshd_config
-#systemctl reload sshd
-
 ## Set Root Password
 echo "===== [TASK] Set root password ====="
 echo "centos" | passwd --stdin root >/dev/null 2>&1
