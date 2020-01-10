@@ -95,7 +95,7 @@ rm -f /var/log/wtmp /var/log/btmp
 cat /dev/null > ~/.bash_history && history -c
 
 ## Rebooting Server
-echo "===== [TASK] Rebooting server"
-echo ""
-echo "########## Finished ##########"
-sudo reboot now
+#echo "===== [TASK] Rebooting server"
+#echo ""
+#echo "########## Finished ##########"
+#sudo reboot now
