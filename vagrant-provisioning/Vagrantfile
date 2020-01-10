@@ -20,7 +20,7 @@ Vagrant.configure(2) do |config|
     config.vbguest.no_remote = true
   end
   
-  config.vm.provision "shell", path: "bootstrap.sh"
+  config.vm.provision "shell", path: "bootstrap_flannel.sh"
 
   # Kubernetes Master Server
   config.vm.define "kmaster" do |kmaster|
