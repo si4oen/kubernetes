@@ -11,7 +11,7 @@ cp /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown -R vagrant:vagrant /home/vagrant/.kube
 
 # Deploy flannel network
-echo "[TASK 3] Deploy flannel network"
+echo "===== [TASK] Deploy flannel network"
 su - vagrant -c "kubectl create -f /vagrant/kube-flannel.yaml"
 
 # Generate Cluster join command
