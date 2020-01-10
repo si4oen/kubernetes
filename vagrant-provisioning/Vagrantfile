@@ -27,6 +27,7 @@ Vagrant.configure(2) do |config|
     kmaster.vm.box = "box.centos7"
     kmaster.vm.hostname = "kmaster.testlab.local"
     kmaster.vm.network "public_network", ip: "192.168.16.130"
+    kmaster.vm.provision "file", source: "~/vagrant/kubernetes/kube-flannel.yaml", destination: "~/vagrant/kube-flannel.yaml"
     kmaster.vm.provider "virtualbox" do |v|
       v.name = "kmaster"
       v.memory = 2048
