@@ -6,7 +6,7 @@ ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 Vagrant.configure(2) do |config|
 
   #disable default /vagrant share
-  #config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   ##ssh key-based authentication
   config.ssh.insert_key = false
@@ -26,16 +26,16 @@ Vagrant.configure(2) do |config|
   config.vm.define "kmaster" do |kmaster|
     kmaster.vm.box = "box.centos7"
     kmaster.vm.hostname = "kmaster.testlab.local"
-    kmaster.vm.network "public_network", ip: "192.168.16.130"
-    #kmaster.vm.network "forwarded_port", guest: "31000", host: "31000", protocol: "tcp"
-      #auto_correct: true
+    kmaster.vm.network "private_network", ip: "172.42.42.100"
+    kmaster.vm.network "forwarded_port", guest: "31000", host: "31000", protocol: "tcp"
+      auto_correct: true
     kmaster.vm.provider "virtualbox" do |v|
       v.name = "kmaster"
       v.memory = 2048
-      v.cpus = 1
+      v.cpus = 2
       v.customize ["modifyvm", :id, "--audio", "none"]
     end
-    kmaster.vm.provision "shell", path: "bootstrap_kmaster_flannel.sh"
+    #kmaster.vm.provision "shell", path: "bootstrap_kmaster.sh"
   end
 
   NodeCount = 2
@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
     config.vm.define "kworker#{i}" do |workernode|
       workernode.vm.box = "box.centos7"
       workernode.vm.hostname = "kworker#{i}.testlab.local"
-      workernode.vm.network "public_network", ip: "192.168.16.13#{i}"
+      workernode.vm.network "private_network", ip: "172.42.42.10#{i}"
       #workernode.vm.network "forwarded_port", guest: "1234", host: "1234", protocol: "tcp"
         #auto_correct: true
       workernode.vm.provider "virtualbox" do |v|
@@ -53,7 +53,7 @@ Vagrant.configure(2) do |config|
         v.cpus = 1
         v.customize ["modifyvm", :id, "--audio", "none"]
       end
-      workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
+      #workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
     end
   end
 end
