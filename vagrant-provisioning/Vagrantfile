@@ -6,7 +6,7 @@ ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 Vagrant.configure(2) do |config|
 
   #disable default /vagrant share
-  #config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 
   ##ssh key-based authentication
   config.ssh.insert_key = false
@@ -33,7 +33,7 @@ Vagrant.configure(2) do |config|
       v.cpus = 1
       v.customize ["modifyvm", :id, "--audio", "none"]
     end
-    kmaster.vm.provision "shell", path: "bootstrap_kmaster_flannel.sh"
+    #kmaster.vm.provision "shell", path: "bootstrap_kmaster_flannel.sh"
   end
 
   NodeCount = 2
@@ -49,7 +49,7 @@ Vagrant.configure(2) do |config|
         v.cpus = 1
         v.customize ["modifyvm", :id, "--audio", "none"]
       end
-      workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
+      #workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
     end
   end
 end
