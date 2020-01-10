@@ -1,0 +1,54 @@
+# Configure NetworkManager before attempting to use Calico networking.
+cat >>/etc/NetworkManager/conf.d/calico.conf<<EOF
+[keyfile]
+unmanaged-devices=interface-name:cali*;interface-name:tunl*
+EOF
+
+Khởi tạo Cluster
+Trong lệnh khởi tạo cluster có tham số --pod-network-cidr để chọn cấu hình mạng của POD, do dự định dùng Addon calico nên chọn --pod-network-cidr=192.168.0.0/16
+Gõ lệnh sau để khở tạo là nút master của Cluster
+
+kubeadm init --apiserver-advertise-address=192.168.16.130 --pod-network-cidr=192.168.0.0/16
+
+kubeadm join 192.168.16.130:6443 --token 0y3v7a.60zzh0niaxladl8z \
+    --discovery-token-ca-cert-hash sha256:f2e8cf99033cbfcde8b4a0439a15141e609910a450169594f4174004cf9d8fd5
+
+Sau khi lệnh chạy xong, chạy tiếp cụm lệnh nó yêu cầu chạy sau khi khởi tạo- để chép file cấu hình đảm bảo trình kubectl trên máy này kết nối Cluster
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Tiếp đó, nó yêu cầu cài đặt một Plugin mạng trong các Plugin tại addon, ở đây đã chọn calico, nên chạy lệnh sau để cài nó
+kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
+
+# Thông tin cluster
+kubectl cluster-info
+# Các node trong cluster
+kubectl get nodes
+# Các pod đang chạy trong tất cả các namespace
+kubectl get pods -A
+
+Trở lại máy Host, để xem nội dung cấu hình kubectl gõ lệnh
+kubectl config view
+
+Kiểm tra các contexts đang chạy
+kubectl config get-contexts
+
+Triển khai kubernetes-dashboard
+https://github.com/kubernetes/dashboard/releases
+curl https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml > dashboard-v2-beta8.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+
+tạo secret cho kubernetes-dashboar sử dụng
+sudo mkdir certs
+sudo chmod 777 -R certs
+openssl req -nodes -newkey rsa:2048 -keyout certs/dashboard.key -out certs/dashboard.csr -subj "/C=/ST=/L=/O=/OU=/CN=kubernetes-dashboard"
+openssl x509 -req -sha256 -days 365 -in certs/dashboard.csr -signkey certs/dashboard.key -out certs/dashboard.crt
+sudo chmod -R 777 certs
+
+kubectl create secret generic kubernetes-dashboard-certs --from-file=/etc/certs -n kubernetes-dashboard
+
+run k9s:
+manually create ~/.k9s and run it with k9s --kubeconfig ~/.kube/config
+
