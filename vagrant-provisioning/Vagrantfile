@@ -27,8 +27,6 @@ Vagrant.configure(2) do |config|
     kmaster.vm.box = "box.centos7"
     kmaster.vm.hostname = "kmaster.testlab.local"
     kmaster.vm.network "public_network", ip: "192.168.16.130"
-    #kmaster.vm.network "forwarded_port", guest: "31000", host: "31000", protocol: "tcp"
-      #auto_correct: true
     kmaster.vm.provider "virtualbox" do |v|
       v.name = "kmaster"
       v.memory = 2048
@@ -45,8 +43,6 @@ Vagrant.configure(2) do |config|
       workernode.vm.box = "box.centos7"
       workernode.vm.hostname = "kworker#{i}.testlab.local"
       workernode.vm.network "public_network", ip: "192.168.16.13#{i}"
-      #workernode.vm.network "forwarded_port", guest: "1234", host: "1234", protocol: "tcp"
-        #auto_correct: true
       workernode.vm.provider "virtualbox" do |v|
         v.name = "kworker#{i}"
         v.memory = 1024
