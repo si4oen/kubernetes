@@ -1,5 +1,9 @@
 #!/bin/bash
 
+## Set TimeZone to Asia/Ho_Chi_Minh
+echo "===== [TASK] Set TimeZone to Asia/Ho_Chi_Minh"
+timedatectl set-timezone Asia/Ho_Chi_Minh
+
 ## Update the system >/dev/null 2>&1
 echo "===== [TASK] Updating the system"
 yum install -y epel-release >/dev/null 2>&1
@@ -93,9 +97,3 @@ rm -f /var/log/wtmp /var/log/btmp
 #dd if=/dev/zero of=/EMPTY bs=1M
 #rm -f /EMPTY
 cat /dev/null > ~/.bash_history && history -c
-
-## Rebooting Server
-#echo "===== [TASK] Rebooting server"
-#echo ""
-#echo "########## Finished ##########"
-#sudo reboot now
