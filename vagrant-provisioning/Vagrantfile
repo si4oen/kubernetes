@@ -53,11 +53,4 @@ Vagrant.configure(2) do |config|
       workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
     end
   end
-  config.group.groups = {
-    "k8s-cluster" => [
-      "kmaster",
-      "kworker1",
-	  "kworker2",
-    ],    
-  }
 end
