@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "kmaster" do |kmaster|
     kmaster.vm.box = "box.centos7"
     kmaster.vm.hostname = "kmaster.testlab.local"
-    kmaster.vm.network "public_network", ip: "192.168.16.130"
+    kmaster.vm.network "public_network", ip: "192.168.16.130", bridge: "eno1"
     kmaster.vm.provision "file", source: "~/vagrant/kubernetes/kube-flannel.yaml", destination: "~/kube-flannel.yaml"
     kmaster.vm.provider "virtualbox" do |v|
       v.name = "kmaster"
@@ -43,7 +43,7 @@ Vagrant.configure(2) do |config|
     config.vm.define "kworker#{i}" do |workernode|
       workernode.vm.box = "box.centos7"
       workernode.vm.hostname = "kworker#{i}.testlab.local"
-      workernode.vm.network "public_network", ip: "192.168.16.13#{i}"
+      workernode.vm.network "public_network", ip: "192.168.16.13#{i}", bridge: "eno1"
       workernode.vm.provider "virtualbox" do |v|
         v.name = "kworker#{i}"
         v.memory = 1024
@@ -53,4 +53,11 @@ Vagrant.configure(2) do |config|
       workernode.vm.provision "shell", path: "bootstrap_kworker.sh"
     end
   end
+  config.group.groups = {
+    "k8s-cluster" => [
+      "kmaster",
+      "kworker1",
+	  "kworker2",
+    ],    
+  }
 end
