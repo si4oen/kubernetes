@@ -1,4 +1,4 @@
-### kubectl apply -f dashboard-admin-user.yaml
+### kubectl apply -f dashboard-admin.yaml
 
 apiVersion: v1
 kind: ServiceAccount
