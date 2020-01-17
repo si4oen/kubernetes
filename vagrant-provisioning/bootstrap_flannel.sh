@@ -82,6 +82,8 @@ systemctl start kubelet >/dev/null 2>&1
 ## Update hosts file
 echo "===== [TASK] Update host file /etc/hosts"
 cat >>/etc/hosts<<EOF
+192.168.16.151 docker1.testlab.local docker1
+192.168.16.141 jenkins1.testlab.local jenkins1
 192.168.16.130 kmaster.testlab.local kmaster
 192.168.16.131 kworker1.testlab.local kworker1
 192.168.16.132 kworker2.testlab.local kworker2
