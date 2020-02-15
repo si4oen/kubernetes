@@ -52,3 +52,5 @@ kubectl create secret generic kubernetes-dashboard-certs --from-file=/etc/certs 
 run k9s:
 manually create ~/.k9s and run it with k9s --kubeconfig ~/.kube/config
 
+kubectl create secret tls tls-testlab --cert=/home/danhnguyen/certs/testlab.crt --key=/home/danhnguyen/certs/testlab.key
+
