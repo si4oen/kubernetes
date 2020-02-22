@@ -12,7 +12,8 @@ chown -R vagrant:vagrant /home/vagrant/.kube
 
 # Deploy flannel network
 echo ">>>>> [TASK] Deploy flannel network"
-su - vagrant -c "kubectl create -f ~/kube-flannel.yaml"
+#su - vagrant -c "kubectl create -f ~/kube-flannel.yaml" 2>/dev/null
+su - vagrant -c "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 
 # Generate Cluster join command
 echo ">>>>> [TASK] Generate and save cluster join command to /joincluster.sh"
