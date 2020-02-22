@@ -1,0 +1,74 @@
+### The Ingress YAML should look like this if you want to reach the backend via TLS:
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-name
+  namespace: namespace-name 
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: service
+          servicePort: 9443
+        path: /carbon
+      - backend:
+          serviceName: service2
+          servicePort: 9443
+        path: /oauth
+		
+		
+		
+### The Ingress YAML should look like this if you want to reach the backend via TLS with TLS decryption in the ingress controller:
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-name
+  namespace: namespace-name 
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec:
+  tls:
+  - hosts:
+    - app.myorg.com #It's important to note that tls-secret is the name of a SecretConfig with a valid Certificate issued for the host (app.myorg.com)
+    secretName: tls-secret 
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: service
+          servicePort: 9443
+        path: /carbon
+      - backend:
+          serviceName: service2
+          servicePort: 9443
+        path: /oauth
+
+
+
+### The Ingress YAML should look like this if you want to reach the backend via TLS with TLS decryption in the backend:
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-name
+  namespace: namespace-name 
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: service
+          servicePort: 9443
+        path: /carbon
+      - backend:
+          serviceName: service2
+          servicePort: 9443
+        path: /oauth		
+		
