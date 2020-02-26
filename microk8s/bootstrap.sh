@@ -11,7 +11,7 @@ apt upgrade -y >/dev/null 2>&1
 
 ## Install desired packages
 echo ">>>>> [TASK] Installing desired packages"
-apt install -y net-tools telnet htop wget unzip >/dev/null 2>&1
+apt install -y elinks net-tools telnet htop wget unzip >/dev/null 2>&1
 
 ## Enable password authentication & SSH root login
 echo ">>>>> [TASK] Enabled password authentication in sshd config"
