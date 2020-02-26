@@ -27,6 +27,11 @@ systemctl reload sshd
 echo ">>>>> [TASK] Set root password"
 echo "root:ubuntu" | sudo chpasswd >/dev/null 2>&1
 
+## Install microk8s on Ubuntu
+echo ">>>>> [TASK] Install microk8s on Ubuntu"
+apt-get install -y snapd >/dev/null 2>&1
+snap install microk8s --classic
+
 ## Update hosts file
 echo ">>>>> [TASK] Update host file /etc/hosts"
 cat >>/etc/hosts<<EOF
