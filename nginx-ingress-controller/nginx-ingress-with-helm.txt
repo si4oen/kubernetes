@@ -1,3 +1,4 @@
+### kubectl create secret tls ${CERT_NAME} --key ${KEY_FILE} --cert ${CERT_FILE}
 ~  >> helm install nginx-ingress stable/nginx-ingress
 NAME: nginx-ingress
 LAST DEPLOYED: Sun Mar 22 14:44:29 2020

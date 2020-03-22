@@ -1,3 +1,6 @@
+### kubectl create secret tls ${CERT_NAME} --key ${KEY_FILE} --cert ${CERT_FILE}
+
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -22,7 +25,7 @@ spec:
           serviceName: codegen-deploy
           servicePort: 8080
 		  
-		  
+---		  
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
