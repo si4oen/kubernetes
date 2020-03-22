@@ -1,0 +1,25 @@
+### kubectl create secret tls ${CERT_NAME} --key ${KEY_FILE} --cert ${CERT_FILE}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    #nginx.ingress.kubernetes.io/whitelist-source-range: ip1/32, ip2/32, ip3/32
+spec:
+  tls:
+  - hosts:
+    - k8s.testlab.local
+    secretName: tls-testlab
+  rules:
+  - host: k8s.testlab.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 443
