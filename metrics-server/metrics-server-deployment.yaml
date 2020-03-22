@@ -4,6 +4,7 @@ kind: ServiceAccount
 metadata:
   name: metrics-server
   namespace: kube-system
+
 ---
 apiVersion: apps/v1
 kind: Deployment
