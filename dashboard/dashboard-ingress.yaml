@@ -1,4 +1,5 @@
 ### kubectl create secret tls ${CERT_NAME} --key ${KEY_FILE} --cert ${CERT_FILE}
+### kubectl create secret generic kubernetes-dashboard-certs --from-file=$HOME/certs -n kubernetes-dashboard
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
